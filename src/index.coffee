@@ -7,8 +7,17 @@ module.exports = class NgTemplatesCompiler
 
   constructor: (config) ->
     @module = config.plugins?.ng_templates?.module or 'appTemplates'
+    @basePath = config.plugins?.ng_templates?.basePath
+    @keepExt = config.plugins?.ng_templates?.keepExt ? true
 
   compile: (data, path, callback) ->
+    if @basePath
+      regex = new RegExp "^#{@basePath}\/"
+      path = path.replace regex, ''
+
+    if not @keepExt
+      path = path.replace /\.\w+$/, ''
+
     callback null, """
       (function() {
         var module;
