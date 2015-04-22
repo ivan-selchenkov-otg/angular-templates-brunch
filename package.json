@@ -15,7 +15,7 @@
     "postinstall": "node_modules/.bin/coffee -c -o lib src"
   },
   "dependencies": {
-    "coffee-script": "~1.6.3"
+    "coffee-script": "~1.9.2"
   },
   "devDependencies": {
   }
