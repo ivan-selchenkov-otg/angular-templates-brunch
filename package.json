@@ -1,15 +1,11 @@
 {
-  "name": "angular-templates-brunch",
-  "version": "0.0.6",
+  "name": "angular-templates-brunch-next",
+  "version": "0.0.7",
   "description": "Wrap templates in an AngularJS module for Brunch.IO",
-  "author": {
-    "name": "Kenneth Kan",
-    "email": "kenhkan@gmail.com"
-  },
-  "homepage": "https://github.com/kenhkan/ng-templates-brunch",
+  "homepage": "https://github.com/ivan-selchenkov-otg/angular-templates-brunch",
   "repository": {
     "type": "git",
-    "url": "git@github.com:kenhkan/ng-templates-brunch.git"
+    "url": "git@github.com:ivan-selchenkov-otg/angular-templates-brunch.git"
   },
   "main": "lib/index",
   "engines": {

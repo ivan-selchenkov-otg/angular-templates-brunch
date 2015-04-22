@@ -1,3 +1,5 @@
+path = require 'path'
+
 module.exports = class NgTemplatesCompiler
   brunchPlugin: yes
   type: 'template'
@@ -7,15 +9,23 @@ module.exports = class NgTemplatesCompiler
 
   constructor: (config) ->
     @module = config.plugins?.ng_templates?.module or 'appTemplates'
-    @tplKey = config.plugins?.ng_templates?.tplKey
+    @relativePath = config.plugins?.ng_templates?.relativePath
     @keepExt = config.plugins?.ng_templates?.keepExt ? true
 
-  compile: (data, path, callback) ->
-    if @tplKey
-      path = @tplKey(path);
+  compile: (data, filepath, callback) ->
+    console.log "compiling #{filepath}"
+
+    if @relativePath
+      filepath = path.relative(@relativePath, filepath);
 
     if not @keepExt
-      path = path.replace /\.\w+$/, ''
+      filepath = filepath.replace /\.\w+$/, ''
+
+    parseStringToJSArray = (str) ->
+      stringArray = '['
+      str.split('\n').map (e, i) ->
+        stringArray += "\n'" + e.replace(/'/g, "\\'") + "',"
+      stringArray += "''" + '].join("\\n")'
 
     callback null, """
       (function() {
@@ -29,19 +39,8 @@ module.exports = class NgTemplatesCompiler
           module = angular.module('#{@module}', []);
         }
 
-        module.run(function($templateCache) {
-          // Force CommonJS to capture from preprocessors
-          var define, module = { exports: true };
-
-          // Include the data from preprocessor
-          #{data}
-
-          // Save the template content
-          if (typeof module.exports === 'function') {
-            $templateCache.put('#{path}', module.exports());
-          } else {
-            $templateCache.put('#{path}', module.exports);
-          }
-        });
+        module.run(['$templateCache', function($templateCache) {
+          return $templateCache.put('#{filepath}', #{parseStringToJSArray(data)});
+        }]);
       })();
     """
