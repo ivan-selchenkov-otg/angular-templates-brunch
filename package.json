@@ -5,7 +5,7 @@
   "homepage": "https://github.com/ivan-selchenkov-otg/angular-templates-brunch",
   "repository": {
     "type": "git",
-    "url": "git@github.com:ivan-selchenkov-otg/angular-templates-brunch.git"
+    "url": "https://github.com/ivan-selchenkov-otg/angular-templates-brunch.git"
   },
   "main": "lib/index",
   "engines": {
